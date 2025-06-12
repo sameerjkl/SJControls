@@ -8,6 +8,7 @@ export class SJCodeInput
   private cssCode = "";
   private jsCode = "";
   private inputData = "";
+  private externalLibs = "";
 
   private outputData: string;
   private jsReturnOutput: string;
@@ -29,6 +30,7 @@ export class SJCodeInput
     this.container = document.createElement("div");
     this.container.className = "sj-code-component";
     container.appendChild(this.container); // ✅ Fix: attach to Power Apps DOM
+    this.notifyOutputChanged = notifyOutputChanged;
   }
 
   public updateView(context: ComponentFramework.Context<IInputs>): void {
@@ -36,52 +38,81 @@ export class SJCodeInput
     const newCss = context.parameters.cssCode?.raw || "";
     const newJs = context.parameters.jsCode?.raw || "";
     const newInput = context.parameters.inputData?.raw || "";
+    const newLibs = context.parameters.externalLibs?.raw || "";
 
     const inputsChanged =
       newHtml !== this.htmlCode ||
       newCss !== this.cssCode ||
       newJs !== this.jsCode ||
-      newInput !== this.inputData;
+      newInput !== this.inputData ||
+      newLibs !== this.externalLibs;
 
     if (inputsChanged) {
       this.htmlCode = newHtml;
       this.cssCode = newCss;
       this.jsCode = newJs;
       this.inputData = newInput;
+      this.externalLibs = newLibs;
 
       this.renderDynamicContent();
     }
   }
 
-  private renderDynamicContent(): void {
-    // Clear the container
+  private async loadExternalLibraries(): Promise<void> {
+    const libs = this.externalLibs
+      .split(",")
+      .map((lib) => lib.trim())
+      .filter((lib) => lib);
+    for (const lib of libs) {
+      if (lib.endsWith(".css")) {
+        const link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = lib;
+        document.head.appendChild(link);
+      } else {
+        await new Promise((resolve, reject) => {
+          const script = document.createElement("script");
+          script.src = lib;
+          script.onload = () => resolve(true);
+          script.onerror = () => reject(`Failed to load ${lib}`);
+          document.body.appendChild(script);
+        });
+      }
+    }
+  }
+
+  private async renderDynamicContent(): Promise<void> {
     this.container.innerHTML = "";
 
-    // Inject CSS
+    try {
+      await this.loadExternalLibraries();
+    } catch (e) {
+      this.jsReturnOutput = `Library Load Error: ${e}`;
+      this.notifyOutputChanged();
+      return;
+    }
+
     const style = document.createElement("style");
     style.innerText = this.cssCode;
 
-    // Inject HTML
     const htmlWrapper = document.createElement("div");
     htmlWrapper.innerHTML = this.htmlCode;
 
-    // Append to DOM before executing JS ✅ Important fix
-    this.container.appendChild(style);
-    this.container.appendChild(htmlWrapper);
-
-    // Run JS after HTML is in DOM
     try {
-      const scopedFunction = new Function("inputData", this.jsCode);
-      const result = scopedFunction(this.inputData);
+      const scopedAsyncFunction = new Function(
+        "inputData",
+        `return (async () => { ${this.jsCode} })();`
+      );
+      const result = await scopedAsyncFunction(this.inputData);
       this.jsReturnOutput = String(result ?? "");
     } catch (e) {
       this.jsReturnOutput = `JS Error: ${e}`;
     }
 
-    // Set outputData
-    this.outputData = this.container.innerHTML;
+    this.container.appendChild(style);
+    this.container.appendChild(htmlWrapper);
 
-    // Notify Power Apps of output change
+    this.outputData = this.container.innerHTML;
     this.notifyOutputChanged();
   }
 

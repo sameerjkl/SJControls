@@ -21,9 +21,10 @@
     <property name="htmlCode" display-name-key="HTML Code" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" />
     <property name="cssCode" display-name-key="CSS Code" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" />
     <property name="jsCode" display-name-key="JS Code" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" />
+    <property name="externalLibs" display-name-key="externalLibs Value" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" />
     <property name="inputData" display-name-key="Input Data" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" />
-    <property name="outputData" display-name-key="Output Data" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" />
-    <property name="jsReturnOutput" display-name-key="JS Return Value" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" />
+    <property name="outputData" display-name-key="Output Data" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="output" required="true" />
+    <property name="jsReturnOutput" display-name-key="JS Return Value" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="output" required="true" />
     
     <!--
       Property node's of-type attribute can be of-type-group attribute.
