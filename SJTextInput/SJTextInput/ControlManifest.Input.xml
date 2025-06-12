@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
 
-  <control namespace="CustomControls" constructor="SJTextInput" version="0.0.1" display-name-key="SJ_TextInput" description-key="SJTextInput description" control-type="standard" >
+  <control namespace="SJControls" constructor="SJTextInput" version="0.0.2" display-name-key="SJ_TextInput" description-key="SJTextInput description" control-type="standard" >
     <external-service-usage enabled="false">
     </external-service-usage>
     <property name="value" display-name-key="Default" description-key="value_Desc_Key" of-type="SingleLine.Text" usage="bound" required="false" />
