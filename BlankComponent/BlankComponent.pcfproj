@@ -8,8 +8,8 @@
   <Import Project="$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Pcf.props" Condition="Exists('$(PowerAppsTargetsPath)\Microsoft.PowerApps.VisualStudio.Pcf.props')" />
 
   <PropertyGroup>
-    <Name>SJCodeInput</Name>
-    <ProjectGuid>50308561-c217-41db-99f4-cda58a3c95c6</ProjectGuid>
+    <Name>BlankComponent</Name>
+    <ProjectGuid>c227f181-0882-49ed-b7bc-868b42954eb1</ProjectGuid>
     <OutputPath>$(MSBuildThisFileDirectory)out\controls</OutputPath>
   </PropertyGroup>
 

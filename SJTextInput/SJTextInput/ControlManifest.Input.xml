@@ -1,53 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="SJControls" constructor="SJTextInput" version="0.0.1" display-name-key="SJTextInput" description-key="SJTextInput description" control-type="standard" >
-    <!--external-service-usage node declares whether this 3rd party PCF control is using external service or not, if yes, this control will be considered as premium and please also add the external domain it is using.
-    If it is not using any external service, please set the enabled="false" and DO NOT add any domain below. The "enabled" will be false by default.
-    Example1:
-      <external-service-usage enabled="true">
-        <domain>www.Microsoft.com</domain>
-      </external-service-usage>
-    Example2:
-      <external-service-usage enabled="false">
-      </external-service-usage>
-    -->
+
+  <control namespace="CustomControls" constructor="SJTextInput" version="0.0.1" display-name-key="SJ_TextInput" description-key="SJTextInput description" control-type="standard" >
     <external-service-usage enabled="false">
-      <!--UNCOMMENT TO ADD EXTERNAL DOMAINS
-      <domain></domain>
-      <domain></domain>
-      -->
     </external-service-usage>
-    <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
-    <property name="sampleProperty" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" />
-    <!--
-      Property node's of-type attribute can be of-type-group attribute.
-      Example:
-      <type-group name="numbers">
-        <type>Whole.None</type>
-        <type>Currency</type>
-        <type>FP</type>
-        <type>Decimal</type>
-      </type-group>
-      <property name="sampleProperty" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type-group="numbers" usage="bound" required="true" />
-    -->
+    <property name="value" display-name-key="Default" description-key="value_Desc_Key" of-type="SingleLine.Text" usage="bound" required="false" />
+    <property name="placeholder" display-name-key="Hint Text" description-key="placeholder_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="customCSS" display-name-key="Custon CSS" description-key="customCSS_Desc_Key" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="maxLength" display-name-key="Max Length" description-key="maxLength" of-type="SingleLine.Text" usage="bound" required="false" />
+    <property name="spellcheck" display-name-key="Spell Check" description-key="spellcheck" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="multiline" display-name-key="Multiline" description-key="multiline" of-type="SingleLine.Text" usage="bound" required="false" />
+    <property name="format" display-name-key="Format" description-key="format" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="pattern" display-name-key="Regx Pattern" description-key="pattern" of-type="SingleLine.Text" usage="input" required="false" />
     <resources>
       <code path="index.ts" order="1"/>
-      <!-- UNCOMMENT TO ADD MORE RESOURCES
-      <css path="css/SJTextInput.css" order="1" />
-      <resx path="strings/SJTextInput.1033.resx" version="1.0.0" />
-      -->
+      <css path="style.css" order="1" />
     </resources>
-    <!-- UNCOMMENT TO ENABLE THE SPECIFIED API
-    <feature-usage>
-      <uses-feature name="Device.captureAudio" required="true" />
-      <uses-feature name="Device.captureImage" required="true" />
-      <uses-feature name="Device.captureVideo" required="true" />
-      <uses-feature name="Device.getBarcodeValue" required="true" />
-      <uses-feature name="Device.getCurrentPosition" required="true" />
-      <uses-feature name="Device.pickFile" required="true" />
-      <uses-feature name="Utility" required="true" />
-      <uses-feature name="WebAPI" required="true" />
-    </feature-usage>
-    -->
   </control>
 </manifest>
